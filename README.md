@@ -2,7 +2,7 @@
 
 这是一个基于Spring Cloud的微服务架构示例项目，展示了微服务架构的核心组件和基本功能。项目代码托管在 [Rodert/SpringCloud-Demo](https://github.com/Rodert/SpringCloud-Demo) 仓库。
 
-这个 Demo 版本，你可以在这个基础上拓展你的业务，他相当于是一个脚手架。
+这个 Demo 版本，你可以在这个基础上拓展你的业务，他相当于是一个脚手架。（如果有不懂的，可以搜：javapub。有社群交流。）
 
 [English Version](README_EN.md) | 中文版
 
