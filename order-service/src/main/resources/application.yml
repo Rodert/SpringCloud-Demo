@@ -1,0 +1,39 @@
+# 订单服务配置文件
+
+# 服务端口配置
+server:
+  port: 8083  # 指定订单服务运行的端口号
+
+# Spring相关配置
+spring:
+  application:
+    name: order-service  # 服务名称，用于在注册中心标识服务
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848  # Nacos服务注册中心地址，用于服务注册和发现
+        
+# JWT配置
+jwt:
+  secret: mySecretKey  # JWT签名密钥，与认证服务保持一致，用于验证令牌
+  
+# Feign客户端配置
+feign:
+  client:
+    config:
+      default:  # 默认配置，适用于所有Feign客户端
+        connectTimeout: 5000  # 连接超时时间，单位为毫秒
+        readTimeout: 5000     # 读取超时时间，单位为毫秒
+        loggerLevel: basic    # 日志级别，可选值：NONE, BASIC, HEADERS, FULL
+  # 启用Hystrix断路器，提供服务降级和熔断功能
+  hystrix:
+    enabled: true  # 启用Hystrix，当微服务不可用时提供备选方案
+
+# Hystrix配置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000  # 超时时间，单位为毫秒 

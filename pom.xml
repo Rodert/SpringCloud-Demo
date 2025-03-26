@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    项目根POM配置文件
+    用于管理整个微服务项目的依赖和构建过程
+    采用模块化结构，每个微服务都是一个独立模块
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 项目基本信息 -->
+    <groupId>com.example</groupId>        <!-- 组织ID -->
+    <artifactId>spring-cloud-practice</artifactId>  <!-- 项目ID -->
+    <version>1.0-SNAPSHOT</version>       <!-- 版本号 -->
+    <packaging>pom</packaging>            <!-- 打包类型为pom，表示这是一个父项目 -->
+
+    <!-- 子模块列表，每个微服务都是一个独立模块 -->
+    <modules>
+        <module>gateway-service</module>  <!-- API网关服务 -->
+        <module>auth-service</module>     <!-- 认证服务 -->
+        <module>user-service</module>     <!-- 用户服务 -->
+        <module>order-service</module>    <!-- 订单服务 -->
+        <module>common</module>           <!-- 公共组件 -->
+    </modules>
+
+    <!-- 全局属性配置 -->
+    <properties>
+        <java.version>1.8</java.version>  <!-- Java版本 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  <!-- 源码编码 -->
+        <spring-boot.version>2.6.3</spring-boot.version>                    <!-- Spring Boot版本 -->
+        <spring-cloud.version>2021.0.1</spring-cloud.version>               <!-- Spring Cloud版本 -->
+        <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>  <!-- Spring Cloud Alibaba版本 -->
+    </properties>
+
+    <!-- 
+        依赖管理
+        定义依赖版本，但不实际引入依赖
+        子模块可以继承这些版本定义，确保版本一致性
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot 依赖 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>  <!-- import范围表示导入依赖管理 -->
+            </dependency>
+            
+            <!-- Spring Cloud 依赖，提供微服务框架核心功能 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            
+            <!-- Spring Cloud Alibaba 依赖，提供阿里云相关组件如Nacos -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 构建配置 -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Spring Boot Maven 插件，用于构建可执行的jar包 -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>  <!-- 重新打包，创建可执行jar -->
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- Maven 编译插件，指定编译选项 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <source>${java.version}</source>  <!-- 源码兼容性 -->
+                        <target>${java.version}</target>  <!-- 目标兼容性 -->
+                        <encoding>${project.build.sourceEncoding}</encoding>  <!-- 编码格式 -->
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    
+    <!-- 仓库配置，指定依赖的下载位置 -->
+    <repositories>
+        <!-- Maven 中央仓库 -->
+        <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <!-- 阿里云镜像，国内访问更快 -->
+        <repository>
+            <id>aliyun</id>
+            <name>Aliyun Maven Repository</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>  <!-- 不使用快照版本 -->
+            </snapshots>
+        </repository>
+        <!-- Spring 仓库，获取最新的Spring相关依赖 -->
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>

@@ -1,0 +1,18 @@
+# 用户服务配置文件
+
+# 服务端口配置
+server:
+  port: 8082  # 指定用户服务运行的端口号
+
+# Spring相关配置
+spring:
+  application:
+    name: user-service  # 服务名称，用于在注册中心标识服务
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848  # Nacos服务注册中心地址，用于服务注册和发现
+
+# JWT配置
+jwt:
+  secret: mySecretKey  # JWT签名密钥，与认证服务保持一致，用于验证令牌 

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    公共模块POM配置
+    此模块包含所有微服务共用的工具类、实体类和配置
+    作为基础依赖被其他服务模块引用
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>spring-cloud-practice</artifactId>
+        <groupId>com.example</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 模块标识 -->
+    <artifactId>common</artifactId>
+
+    <dependencies>
+        <!-- Spring Boot Web 依赖，提供Web应用基础功能 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Spring Boot 配置处理器，提供配置属性提示和自动完成 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>  <!-- 可选依赖，不会传递给依赖此模块的项目 -->
+        </dependency>
+
+        <!-- JWT (JSON Web Token) 依赖，用于生成和验证令牌 -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>  <!-- 指定版本，确保一致性 -->
+        </dependency>
+
+        <!-- Lombok 依赖，简化Java代码 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>  <!-- 可选依赖，减少传递依赖冲突 -->
+        </dependency>
+    </dependencies>
+
+</project> 

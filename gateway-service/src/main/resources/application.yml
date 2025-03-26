@@ -1,0 +1,50 @@
+# 网关服务配置文件
+
+# 服务端口配置
+server:
+  port: 8080  # 指定网关服务运行的端口号，作为系统入口
+
+# Spring相关配置
+spring:
+  application:
+    name: gateway-service  # 服务名称，用于在注册中心标识服务
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848  # Nacos服务注册中心地址
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        # 认证服务路由配置
+        - id: auth-service  # 路由ID，唯一标识
+          uri: lb://auth-service  # 目标URI，lb://前缀表示使用负载均衡转发到服务名
+          predicates:  # 断言条件，满足条件的请求会被转发
+            - Path=/auth/**  # 匹配路径前缀为/auth的请求
+          filters:
+            - StripPrefix=0
+        # 用户服务路由配置
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/users/**  # 匹配路径前缀为/users的请求
+          filters:
+            - StripPrefix=0
+        # 订单服务路由配置
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/orders/**  # 匹配路径前缀为/orders的请求
+          filters:
+            - StripPrefix=0
+
+# JWT配置
+jwt:
+  secret: mySecretKey  # JWT签名密钥，与其他服务保持一致
+  
+# 日志配置
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG  # 设置网关组件日志级别为DEBUG，方便调试 

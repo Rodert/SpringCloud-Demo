@@ -1,0 +1,51 @@
+# 认证服务配置文件
+
+# 服务端口配置
+server:
+  port: 8081  # 指定认证服务运行的端口号
+
+# Spring相关配置
+spring:
+  application:
+    name: auth-service  # 服务名称，用于在注册中心标识服务
+  # 数据源配置
+  datasource:
+    url: jdbc:h2:mem:authdb  # 使用H2内存数据库
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  # H2控制台配置
+  h2:
+    console:
+      enabled: true  # 启用H2控制台
+      path: /h2-console  # 控制台访问路径
+  # JPA配置
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update  # 自动更新表结构
+    show-sql: true  # 显示SQL语句
+    properties:
+      hibernate:
+        format_sql: true  # 格式化SQL
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848  # Nacos服务注册中心地址
+#        register-enabled: false  # 临时禁用注册到Nacos
+        fail-fast: true  # 快速失败模式
+        naming-load-cache-at-start: false  # 启动时不加载缓存
+        heart-beat-timeout: 3000 # 心跳超时时间（毫秒）
+        heart-beat-interval: 1000 # 心跳间隔（毫秒）
+        # ip: 127.0.0.1  # 如果需要，强制指定注册IP
+
+# JWT配置
+jwt:
+  secret: mySecretKey  # JWT签名密钥，用于对令牌进行签名和验证
+  expiration: 86400    # 令牌过期时间，单位为秒，此处设置为24小时(86400秒)
+
+# 日志配置
+logging:
+  level:
+    com.alibaba.cloud.nacos.discovery: DEBUG
+    com.alibaba.nacos.client.naming: DEBUG 
